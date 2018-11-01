@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Testing highlight</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles/dark.css">
+    <link rel="stylesheet" href="style.css">
+    <!--<link rel="stylesheet" href="highlight-default.css">-->
+    <script type="text/javascript" src="highlight.pack.js"></script>
+    <!--<script type="text/javascript" src="highlight.js"></script>-->
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+       $(document).ready(function(){
+          incoming();
+          $('#pm').hide();
+          $('#rm').hide();
+          $('#mt').hide();
+          $('#out').hide();
+        });
+
+    function incoming(){
+               $.ajax({
+                  type: "GET",
+                  dataType: "html",
+                  url: "http://localhost:8080/incoming",
+                  success: function(data){
+                  var res=formatXml(data);
+                 /* var res1=data.replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;')
+                  console.log(res1); */
+                   $('#in').text(res);
+                   hljs.highlightBlock(document.getElementById('in'));
+                   }
+                 });
+        };
+
+
+        function outgoing(){
+               $.ajax({
+                  type: "GET",
+                  dataType: "html",
+                  url: "http://localhost:8080/outgoing",
+                  success: function(data){
+                  var res=formatXml(data);
+                 /* var res1=data.replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;')
+                  console.log(res1); */
+
+                  $('#pm').show();
+                  $('#rm').show();
+                  $('#mt').show();
+                  $('#out').text(res);
+                  $('#out').show();
+                   hljs.highlightBlock(document.getElementById('out'));
+
+                   }
+
+                 });
+        };
+
+          function formatXml(xml){
+            var formatted = '';
+            var reg = /(>)(<)(\/*)/g;
+            xml = xml.replace(reg, '$1\r\n$2$3');
+            var pad = 0;
+            $.each(xml.split('\r\n'), function(index, node)
+            {
+                var indent = 0;
+                if (node.match( /.+<\/\w[^>]*>$/ ))
+                {
+                    indent = 0;
+                }
+                else if (node.match( /^<\/\w/ ))
+                {
+                    if (pad != 0)
+                    {
+                        pad -= 1;
+                    }
+                }
+                else if (node.match( /^<\w[^>]*[^\/]>.*$/ ))
+                {
+                    indent = 1;
+                }
+                else
+                {
+                    indent = 0;
+                }
+                var padding = '';
+                for (var i = 0; i < pad; i++)
+                {
+                    padding += '  ';
+                }
+                formatted += padding + node + '\r\n';
+                pad += indent;
+            });
+            return formatted;
+          };
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div id="inid">
+      <pre>
+        <label for="inid">Incoming</label>
+        <code id="in" class="xml">
+        </code>
+      </pre>
+        </div>
+        <br/>
+
+        <button type="button" name="submti" onclick="outgoing();">Submit</button>
+        <div id="pm">
+            <label>Payment Method:</label>
+            <label>SWFIT</label>
+        </div>
+        <br/>
+        <div id="rm">
+            <label>Routing Method:</label>
+            <label>SERIAL</label>
+        </div>
+        <br/>
+        <div id="mt">
+            <label>Message Type:</label>
+            <label>103</label>
+        </div>
+        <br/>
+        <div class="ouid">
+      <pre>
+          <label for="ouid">Outgoing</label>
+        <code id="out" class="xml">
+      </code>
+      </pre>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

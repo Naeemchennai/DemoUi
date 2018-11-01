@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GPP_FEEDR_REQ><IntrfcClHdr><IntrfcClDtls><IntrfcNm>FNDT_FEEDER</IntrfcNm><ActnTp>MSG_FEED</ActnTp><ClTp>REQUEST</ClTp><Ver>1.0</Ver></IntrfcClDtls><ReqstgSys>CPR</ReqstgSys><Office>SG1</Office><ReqstRef>1806180042065234</ReqstRef><ReqstTmStmp>2018-06-18T02:34:15.230Z</ReqstTmStmp><NbOfOccrs>1</NbOfOccrs></IntrfcClHdr><IntrfcClBdy><BscFeedrRq><SrcChnlId>GCP</SrcChnlId><PmtMsgTp>103</PmtMsgTp><MSgTxt><SWIFTMsg>{4:
+:20:GCPSG024487654
+:23B:CRED
+:32A:180618USD1999945,00
+:33B:USD2000000,00
+:50K:/168005USD00013
+ASJKAJSKJSA
+ASKJAKJSA
+ASLKALKSJ
+:57A:DBSSHKHHXXX
+:59:/30001789388
+XXXXXXXXXXX
+XXXXXXXX
+TETS
+:70:DISTRIBUTION
+:71A:BEN
+:71F:USD55,00
+:72:/ACC/ACCOUNT CURRENT
+-}</SWIFTMsg></MSgTxt></BscFeedrRq></IntrfcClBdy></GPP_FEEDR_REQ>
